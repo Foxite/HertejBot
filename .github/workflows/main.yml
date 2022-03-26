@@ -14,8 +14,8 @@ jobs:
     - name: Publish Docker
       uses: elgohr/Publish-Docker-Github-Action@3.04
       with:
-        name: highlight-bot
-        context: HighlightBot
+        name: hertej-bot
+        context: HertejBot
         registry: ${{ secrets.REPO_URL }}
         username: ${{ secrets.REPO_USER }}
         password: ${{ secrets.REPO_PASSWD }}
