@@ -3,10 +3,9 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["HertejBot/HertejBot.csproj", "HertejBot/"]
-RUN dotnet restore "HertejBot/HertejBot.csproj"
+COPY ["HertejBot.csproj", "HertejBot.csproj"]
+RUN dotnet restore "HertejBot.csproj"
 COPY . .
-WORKDIR "/src/HertejBot"
 RUN dotnet build "HertejBot.csproj" -c Release -o /app/build
 
 FROM build AS publish
