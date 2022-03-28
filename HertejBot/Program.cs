@@ -14,11 +14,19 @@ var http = new HttpClient() {
 	}
 };
 
-var regex = new Regex("hert(je|ej)?");
+var filters = new Dictionary<Regex, (string AnimalKey, string Reply)> {
+	{ new Regex("\bhert(je|ej)?\b"), ( "bleat", "Hertej :)" ) },
+	{ new Regex("\bvos(je|ej)?\b"), ( "fox", "Vosej :)" ) },
+};
 discord.MessageCreated += async (_, args) => {
-	if (!args.Author.IsBot && regex.IsMatch(args.Message.Content.ToLower())) {
-		string url = JObject.Parse(await http.GetStringAsync("https://api.tinyfox.dev/img?animal=bleat&json"))["loc"].ToObject<string>();
-		await args.Message.RespondAsync("Hertej :) https://api.tinyfox.dev" + url);
+	if (!args.Author.IsBot) {
+		foreach ((Regex? key, (string? animalKey, string? reply)) in filters) {
+			if (key.IsMatch(args.Message.Content.ToLower())) {
+				string url = JObject.Parse(await http.GetStringAsync($"https://api.tinyfox.dev/img?animal={animalKey}&json"))["loc"]!.ToObject<string>()!;
+				await args.Message.RespondAsync($"{reply} https://api.tinyfox.dev{url}");
+				return;
+			}
+		}
 	}
 };
 
