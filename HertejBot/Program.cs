@@ -10,7 +10,10 @@ var discord = new DiscordClient(new DiscordConfiguration() {
 
 var http = new HttpClient() {
 	DefaultRequestHeaders = {
-		UserAgent = { new ProductInfoHeaderValue("HertejBot", "0.1") }
+		UserAgent = {
+			new ProductInfoHeaderValue("HertejBot", "0.2"),
+			new ProductInfoHeaderValue("(https://github.com/Foxite/HertejBot)")
+		}
 	}
 };
 
@@ -18,16 +21,27 @@ var filters = new Dictionary<Regex, (string AnimalKey, string Reply)> {
 	{ new Regex(@"\bhert(je|ej)?\b", RegexOptions.IgnoreCase), ( "bleat", "Hertej :)" ) },
 	{ new Regex(@"\bvos(je|ej)?\b", RegexOptions.IgnoreCase), ( "fox", "Vosej :)" ) },
 };
-discord.MessageCreated += async (_, args) => {
+discord.MessageCreated += (c, args) => {
 	if (!args.Author.IsBot) {
 		foreach ((Regex? key, (string? animalKey, string? reply)) in filters) {
 			if (key.IsMatch(args.Message.Content)) {
-				string url = JObject.Parse(await http.GetStringAsync($"https://api.tinyfox.dev/img?animal={animalKey}&json"))["loc"]!.ToObject<string>()!;
-				await args.Message.RespondAsync($"{reply} https://api.tinyfox.dev{url}");
-				return;
+				_ = Task.Run(async () => {
+					try {
+						string url = JObject.Parse(await http.GetStringAsync($"https://api.tinyfox.dev/img?animal={animalKey}&json"))["loc"]!.ToObject<string>()!;
+						using Stream download = await http.GetStreamAsync($"https://api.tinyfox.dev{url}");
+						await args.Message.RespondAsync(dmb => dmb
+							.WithContent(reply)
+							.WithFile(Path.GetFileName(url), download)
+						);
+					} catch (Exception e) {
+						Console.WriteLine(e);
+					}
+				});
+				break;
 			}
 		}
 	}
+	return Task.CompletedTask;
 };
 
 await discord.ConnectAsync();
