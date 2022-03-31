@@ -20,6 +20,8 @@ var http = new HttpClient() {
 var filters = new Dictionary<Regex, (string AnimalKey, string Reply)> {
 	{ new Regex(@"\bhert(je|ej)?\b", RegexOptions.IgnoreCase), ( "bleat", "Hertej :)" ) },
 	{ new Regex(@"\bvos(je|ej)?\b", RegexOptions.IgnoreCase), ( "fox", "Vosej :)" ) },
+	{ new Regex(@"\bmart(en)?\b", RegexOptions.IgnoreCase), ( "marten", "Marten :)" ) },
+	{ new Regex(@"\bhond(je|ej)?\b", RegexOptions.IgnoreCase), ( "dog", "Hondej :)" ) },
 };
 discord.MessageCreated += (c, args) => {
 	if (!args.Author.IsBot) {
