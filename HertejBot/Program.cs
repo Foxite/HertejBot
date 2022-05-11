@@ -22,6 +22,7 @@ var filters = new Dictionary<Regex, (string AnimalKey, string Reply)> {
 	{ new Regex(@"\bvos(je|ej)?\b", RegexOptions.IgnoreCase), ( "fox", "Vosej :)" ) },
 	{ new Regex(@"\bmart(en)?\b", RegexOptions.IgnoreCase), ( "marten", "Marten :)" ) },
 	{ new Regex(@"\bhond(je|ej)?\b", RegexOptions.IgnoreCase), ( "dog", "Hondej :)" ) },
+	{ new Regex(@"\bpum(aj|ej|j)?\b", RegexOptions.IgnoreCase), ( "puma", "Pumaj :)" ) },
 };
 discord.MessageCreated += (c, args) => {
 	if (!args.Author.IsBot) {
