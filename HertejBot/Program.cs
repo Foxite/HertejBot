@@ -37,7 +37,7 @@ discord.MessageCreated += (c, args) => {
 						await using Stream download = await image.Content.ReadAsStreamAsync();
 						await args.Message.RespondAsync(dmb => dmb
 							.WithContent(reply)
-							.WithFile(Path.GetFileName(image.Content.Headers.ContentDisposition.FileName), download)
+							.WithFile(Path.GetFileName(image.Content.Headers.ContentDisposition.FileName.Replace("\"", "")), download)
 						);
 					} catch (Exception e) {
 						Console.WriteLine(e);
