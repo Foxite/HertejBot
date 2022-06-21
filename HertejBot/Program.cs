@@ -26,6 +26,13 @@ var filters = new Dictionary<Regex, (string AnimalKey, string Reply)> {
 	{ new Regex(@"\bsnek(je|ej)?\b", RegexOptions.IgnoreCase), ( "snek", "Snek :)" ) },
 	{ new Regex(@"\bhyeen(tje|ej|tej)?\b", RegexOptions.IgnoreCase), ( "yeen", "Hyeen :)" ) },
 	{ new Regex(@"\bmanul(tje|ej|tej)?\b", RegexOptions.IgnoreCase), ( "manul", "Manul :)" ) },
+	{ new Regex(@"\bposs(je|ej)?\b", RegexOptions.IgnoreCase), ( "poss", "Possej :)" ) },
+	{ new Regex(@"\bleo(tje|j|tej)?\b", RegexOptions.IgnoreCase), ( "leo", "Leoj :)" ) },
+	{ new Regex(@"\bserval(tje|ej|tej)?\b", RegexOptions.IgnoreCase), ( "serval", "Servalej :)" ) },
+	{ new Regex(@"\bshiba(tje|j|tej)?\b", RegexOptions.IgnoreCase), ( "shiba", "Shibaj :)" ) },
+	{ new Regex(@"\braccoon(tje|ej|tej)?\b", RegexOptions.IgnoreCase), ( "racc", "raccoontej :)" ) },
+	{ new Regex(@"\bdook(tje|ej|tej)?\b", RegexOptions.IgnoreCase), ( "dook", "dookej :)" ) },
+	{ new Regex(@"\bott(je|ej|erej\ertje)?\b", RegexOptions.IgnoreCase), ( "ott", "ottej :)" ) },
 };
 discord.MessageCreated += (c, args) => {
 	if (!args.Author.IsBot) {
