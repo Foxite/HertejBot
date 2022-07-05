@@ -40,11 +40,11 @@ discord.MessageCreated += (c, args) => {
 			if (key.IsMatch(args.Message.Content)) {
 				_ = Task.Run(async () => {
 					try {
-						string url = JObject.Parse(await http.GetStringAsync($"https://api.tinyfox.dev/img?animal={animalKey}&json"))["loc"]!.ToObject<string>()!;
-						using Stream download = await http.GetStreamAsync($"https://api.tinyfox.dev{url}");
+						using HttpResponseMessage image = await http.GetAsync($"https://api.tinyfox.dev/img?animal={animalKey}");
+						await using Stream download = await image.Content.ReadAsStreamAsync();
 						await args.Message.RespondAsync(dmb => dmb
 							.WithContent(reply)
-							.WithFile(Path.GetFileName(url), download)
+							.WithFile(Path.GetFileName(image.Content.Headers.ContentDisposition.FileName.Replace("\"", "")), download)
 						);
 					} catch (Exception e) {
 						Console.WriteLine(e);
