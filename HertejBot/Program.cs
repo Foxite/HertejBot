@@ -20,7 +20,7 @@ var http = new HttpClient() {
 var filters = new Dictionary<Regex, (string AnimalKey, string Reply)> {
 	{ new Regex(@"\bhert(je|ej)?\b", RegexOptions.IgnoreCase), ( "bleat", "Hertej :)" ) },
 	{ new Regex(@"\bvos(je|ej)?s?\b", RegexOptions.IgnoreCase), ( "fox", "Vosej :)" ) },
-	{ new Regex(@"\bfox\b", RegexOptions.IgnoreCase), ( "fox", "Vosej :)" ) },
+	{ new Regex(@"\bfox(ie|es|ies)\b", RegexOptions.IgnoreCase), ( "fox", "Vosej :)" ) },
 	{ new Regex(@"\bmart(en)?\b", RegexOptions.IgnoreCase), ( "marten", "Marten :)" ) },
 	{ new Regex(@"\bhond(je|ej)?\b", RegexOptions.IgnoreCase), ( "dog", "Hondej :)" ) },
 	{ new Regex(@"\bpum(aj|ej|aej)?\b", RegexOptions.IgnoreCase), ( "puma", "Pumaj :)" ) },
