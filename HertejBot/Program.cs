@@ -35,7 +35,7 @@ List<(Regex Regex, string ApiName, string Reply)> filters = new[] {
 	("wasbeer(t?(ej|je))?",       "racc",   "Wasbeerej"),
 	("fret(t?(ej|je))?",          "dook",   "Fretej"   ),
 	("ott(je|ej|erej|ertje)?",    "ott",    "Ottej"    ),
-	("wolf(je|ej)?",              "wolf",   "Wolfej"   ),
+	("w(ol|ø)f(je|ej)?",              "wolf",   "Wolfej"   ),
 }.Select(tuple => (new Regex(@$"\b{tuple.Item1}s?\b", RegexOptions.IgnoreCase), tuple.Item2, tuple.Item3)).ToList();
 
 discord.MessageCreated += (c, args) => {
