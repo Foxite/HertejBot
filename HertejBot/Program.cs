@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using DSharpPlus;
-using Newtonsoft.Json.Linq;
+using DSharpPlus.Entities;
 
 var discord = new DiscordClient(new DiscordConfiguration() {
 	Intents = DiscordIntents.GuildMessages,
@@ -11,41 +11,45 @@ var discord = new DiscordClient(new DiscordConfiguration() {
 var http = new HttpClient() {
 	DefaultRequestHeaders = {
 		UserAgent = {
-			new ProductInfoHeaderValue("HertejBot", "0.2"),
+			new ProductInfoHeaderValue("HertejBot", "0.2.1"),
 			new ProductInfoHeaderValue("(https://github.com/Foxite/HertejBot)")
 		}
 	}
 };
 
-var filters = new Dictionary<Regex, (string AnimalKey, string Reply)> {
-	{ new Regex(@"\bhert(je|ej)?\b", RegexOptions.IgnoreCase), ( "bleat", "Hertej :)" ) },
-	{ new Regex(@"\bvos(je|ej)?s?\b", RegexOptions.IgnoreCase), ( "fox", "Vosej :)" ) },
-	{ new Regex(@"\bfox(ie|es|ies)\b", RegexOptions.IgnoreCase), ( "fox", "Vosej :)" ) },
-	{ new Regex(@"\bmart(en)?\b", RegexOptions.IgnoreCase), ( "marten", "Marten :)" ) },
-	{ new Regex(@"\bhond(je|ej)?\b", RegexOptions.IgnoreCase), ( "dog", "Hondej :)" ) },
-	{ new Regex(@"\bpum(aj|ej|aej)?\b", RegexOptions.IgnoreCase), ( "puma", "Pumaj :)" ) },
-	{ new Regex(@"\bsnek(je|ej)?\b", RegexOptions.IgnoreCase), ( "snek", "Snek :)" ) },
-	{ new Regex(@"\bhyeen(tje|ej|tej)?\b", RegexOptions.IgnoreCase), ( "yeen", "Hyeen :)" ) },
-	{ new Regex(@"\bmanul(tje|ej|tej)?\b", RegexOptions.IgnoreCase), ( "manul", "Manul :)" ) },
-	{ new Regex(@"\bposs(je|ej)?\b", RegexOptions.IgnoreCase), ( "poss", "Possej :)" ) },
-	{ new Regex(@"\bleo(tje|j|tej)?\b", RegexOptions.IgnoreCase), ( "leo", "Leoj :)" ) },
-	{ new Regex(@"\bserval(tje|ej|tej)?\b", RegexOptions.IgnoreCase), ( "serval", "Servalej :)" ) },
-	{ new Regex(@"\bshiba(tje|j|tej)?\b", RegexOptions.IgnoreCase), ( "shiba", "Shibaj :)" ) },
-	{ new Regex(@"\braccoon(tje|ej|tej)?\b", RegexOptions.IgnoreCase), ( "racc", "raccoontej :)" ) },
-	{ new Regex(@"\bdook(tje|ej|tej)?\b", RegexOptions.IgnoreCase), ( "dook", "dookej :)" ) },
-	{ new Regex(@"\bott(je|ej|erej\ertje)?\b", RegexOptions.IgnoreCase), ( "ott", "ottej :)" ) },
-};
+List<(Regex Regex, string ApiName, string Reply)> filters = new[] {
+	("hert(je|ej)?",              "bleat",  "Hertej"   ),
+	("vos(je|ej)?",               "fox",    "Vosej"    ),
+	("fox(ie|es|ies)?",           "fox",    "Vosej"    ),
+	("mart(en)?(t?(ej|je))?",     "marten", "Martej"   ),
+	("hond(je|ej)?",              "dog",    "Hondej"   ),
+	("pum(a?)[tp]?(ej|je)?",      "puma",   "Pumaj"    ),
+	("snek(je|ej)?",              "snek",   "Slangej"  ),
+	("slang(e?t?(je|ej))?",       "snek",   "Slangej"  ),
+	("(hyeen|hyena)(t?(ej|je))?", "yeen",   "Hyenaj"   ),
+	("man(u|oe)l((et?)(ej|je))?", "manul",  "Manulej"  ),
+	("o?poss(um[tp]?)?(je|ej)?",  "poss",   "Opossumej"),
+	("leeuw(t?(ej|je))?",         "leo",    "Leeuwej"  ),
+	("serval(t?(ej|je))?",        "serval", "Servalej" ),
+	("shiba(t?(ej|je))?",         "shiba",  "Shibaj"   ),
+	("wasbeer(t?(ej|je))?",       "racc",   "Wasbeerej"),
+	("fret(t?(ej|je))?",          "dook",   "Fretej"   ),
+	("ott(je|ej|erej|ertje)?",    "ott",    "Ottej"    ),
+	("wolf(je|ej)?",              "wolf",   "Wolfej"   ),
+}.Select(tuple => (new Regex(@$"\b{tuple.Item1}s?\b", RegexOptions.IgnoreCase), tuple.Item2, tuple.Item3)).ToList();
+
 discord.MessageCreated += (c, args) => {
 	if (!args.Author.IsBot) {
-		foreach ((Regex? key, (string? animalKey, string? reply)) in filters) {
-			if (key.IsMatch(args.Message.Content)) {
+		foreach ((Regex regex, string apiName, string reply) in filters) {
+			if (regex.IsMatch(args.Message.Content)) {
 				_ = Task.Run(async () => {
 					try {
-						using HttpResponseMessage image = await http.GetAsync($"https://api.tinyfox.dev/img?animal={animalKey}");
+						using HttpResponseMessage image = await http.GetAsync($"https://api.tinyfox.dev/img?animal={apiName}");
 						await using Stream download = await image.Content.ReadAsStreamAsync();
-						await args.Message.RespondAsync(dmb => dmb
-							.WithContent(reply)
-							.WithFile(Path.GetFileName(image.Content.Headers.ContentDisposition.FileName.Replace("\"", "")), download)
+						await args.Message.RespondAsync(
+							new DiscordMessageBuilder()
+								.WithContent(reply + " :)")
+								.WithFile(Path.GetFileName(image.Content.Headers.ContentDisposition.FileName.Replace("\"", "")), download)
 						);
 					} catch (Exception e) {
 						Console.WriteLine(e);
