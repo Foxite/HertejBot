@@ -12,7 +12,7 @@ var discord = new DiscordClient(new DiscordConfiguration() {
 var http = new HttpClient() {
 	DefaultRequestHeaders = {
 		UserAgent = {
-			new ProductInfoHeaderValue("HertejBot", "0.2.1"),
+			new ProductInfoHeaderValue("HertejBot", "0.3"),
 			new ProductInfoHeaderValue("(https://github.com/Foxite/HertejBot)")
 		}
 	}
@@ -21,24 +21,39 @@ var http = new HttpClient() {
 ImageSource Tinyfox(string animal) => new HttpImageSource(http, $"https://api.tinyfox.dev/img?animal={animal}");
 
 List<(Regex Regex, ImageSource Source, string Reply)> filters = new[] {
-	("hert(je|ej)?",              Tinyfox("bleat"),  "Hertej"   ),
-	("vos(je|ej)?",               Tinyfox("fox"),    "Vosej"    ),
-	("fox(ie|es|ies)?",           Tinyfox("fox"),    "Vosej"    ),
-	("mart(en)?(t?(ej|je))?",     Tinyfox("marten"), "Martej"   ),
-	("hond(je|ej)?",              Tinyfox("dog"),    "Hondej"   ),
-	("pum(a?)[tp]?(ej|je)?",      Tinyfox("puma"),   "Pumaj"    ),
-	("snek(je|ej)?",              Tinyfox("snek"),   "Slangej"  ),
-	("slang(e?t?(je|ej))?",       Tinyfox("snek"),   "Slangej"  ),
-	("(hyeen|hyena)(t?(ej|je))?", Tinyfox("yeen"),   "Hyenaj"   ),
-	("man(u|oe)l((et?)(ej|je))?", Tinyfox("manul"),  "Manulej"  ),
-	("o?poss(um[tp]?)?(je|ej)?",  Tinyfox("poss"),   "Opossumej"),
-	("leeuw(t?(ej|je))?",         Tinyfox("leo"),    "Leeuwej"  ),
-	("serval(t?(ej|je))?",        Tinyfox("serval"), "Servalej" ),
-	("shiba(t?(ej|je))?",         Tinyfox("shiba"),  "Shibaj"   ),
-	("wasbeer(t?(ej|je))?",       Tinyfox("racc"),   "Wasbeerej"),
-	("fret(t?(ej|je))?",          Tinyfox("dook"),   "Fretej"   ),
-	("ott(je|ej|erej|ertje)?",    Tinyfox("ott"),    "Ottej"    ),
-	("w(ol|ø)f(je|ej)?",          Tinyfox("woof"),   "Wolfej"   ),
+	("hert(je|ej)?",                                  Tinyfox("bleat"),   "Hertej"          ),
+	("vos(je|ej)?",                                   Tinyfox("fox"),     "Vosej"           ),
+	("fox(ie|es|ies)?",                               Tinyfox("fox"),     "Vosej"           ),
+	("mart(en)?(t?(ej|je))?",                         Tinyfox("marten"),  "Martej"          ),
+	("pum(a?)[tp]?(ej|je)?",                          Tinyfox("puma"),    "Pumaj"           ),
+	("snek(je|ej)?",                                  Tinyfox("snek"),    "Slangej"         ),
+	("slang(e?t?(je|ej))?",                           Tinyfox("snek"),    "Slangej"         ),
+	("(h?yeen|hyena)(t?(ej|je))?",                    Tinyfox("yeen"),    "Hyenaj"          ),
+	("man(u|oe)l((e?t)?(ej|je))?",                    Tinyfox("manul"),   "Manulej"         ),
+	("o?poss(um[tp]?)?(je|ej)?",                      Tinyfox("poss"),    "Opossumej"       ),
+	("leeuw(t?(ej|je))?",                             Tinyfox("leo"),     "Leeuwej"         ),
+	("serval(t?(ej|je))?",                            Tinyfox("serval"),  "Servalej"        ),
+	("shiba(t?(ej|je))?",                             Tinyfox("shiba"),   "Shibaj"          ),
+	("wasbeer(t?(ej|je))?",                           Tinyfox("racc"),    "Wasbeertej"      ),
+	("fret(t?(ej|je))?",                              Tinyfox("dook"),    "Fretej"          ),
+	("ott(je|ej|erej|ertje)?",                        Tinyfox("ott"),     "Ottej"           ),
+	("w(ol|ø)f(je|ej)?",                              Tinyfox("woof"),    "Wolfej"          ),
+	("snep(ej|je)?",                                  Tinyfox("snep"),    "Snepej"          ),
+	("sneeuw ?luipaard(ej|je)?",                      Tinyfox("snep"),    "Sneeuwluipaardej"),
+	("capy(bara)?t?(ej|je)?",                         Tinyfox("capy"),    "Capbaratej"      ),
+	("beert?(ej|je)?",                                Tinyfox("bear"),    "Beertej"         ),
+	("ko?ni[ij]nt?(ej|je)?",                          Tinyfox("bun"),     "Knijntej"        ),
+	("caracalt?(ej|je)?",                             Tinyfox("caracal"), "Caracalej"       ),
+	("maa?n(en)? ?wolf(ej|je)?",                      Tinyfox("mane"),    "Manenwolfej"     ),
+	("tijger?t?(ej|je)?",                             Tinyfox("tig"),     "Tijgetej"        ),
+	("stink ?diert?(ej|je)?",                         Tinyfox("skunk"),   "Stinkdiertej"    ),
+	("jaguart?(ej|je)?",                              Tinyfox("jaguar"),  "Jaguartej"       ),
+	("(co)?yote(tje|tej|j|je)?",                      Tinyfox("yote"),    "Coyotej"         ),
+	("waht?(ej|je)?",                                 Tinyfox("wah"),     "Pandatej"        ),
+	("(red|rood|rode|rooie) ?pand(a|er)t?(ej|je)?",   Tinyfox("wah"),     "Pandatej"        ),
+	("chi(tej|tje|ej|je|j)?",                         Tinyfox("chi"),     "Chitej"          ),
+	("afri[kc]a(n|anse)?( wilde?)? ?hon[dt](ej|je)?", Tinyfox("chi"),     "Hondej"          ),
+	("hond(je|ej)?",                                  Tinyfox("dog"),     "Hondej"          ), // this is a subset of the one above, so it must come after
 }.Select(tuple => (new Regex(@$"\b{tuple.Item1}s?\b", RegexOptions.IgnoreCase), tuple.Item2, tuple.Item3)).ToList();
 
 discord.MessageCreated += (c, args) => {
