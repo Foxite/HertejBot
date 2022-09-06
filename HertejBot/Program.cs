@@ -33,7 +33,7 @@ List<(Regex Regex, ImageSource Source, string Reply)> filters = new[] {
 	("o?poss(um[tp]?)?(je|ej)?",                      Tinyfox("poss"),    "Opossumej"       ),
 	("leeuw(t?(ej|je))?",                             Tinyfox("leo"),     "Leeuwej"         ),
 	("serval(t?(ej|je))?",                            Tinyfox("serval"),  "Servalej"        ),
-	("shiba(t?(ej|je))?",                             Tinyfox("shiba"),   "Shibaj"          ),
+	("shiba(t?(ej|je|j))?",                           Tinyfox("shiba"),   "Shibaj"          ),
 	("wasbeer(t?(ej|je))?",                           Tinyfox("racc"),    "Wasbeertej"      ),
 	("fret(t?(ej|je))?",                              Tinyfox("dook"),    "Fretej"          ),
 	("ott(je|ej|erej|ertje)?",                        Tinyfox("ott"),     "Ottej"           ),
@@ -49,10 +49,10 @@ List<(Regex Regex, ImageSource Source, string Reply)> filters = new[] {
 	("stink ?diert?(ej|je)?",                         Tinyfox("skunk"),   "Stinkdiertej"    ),
 	("jaguart?(ej|je)?",                              Tinyfox("jaguar"),  "Jaguartej"       ),
 	("(co)?yote(tje|tej|j|je)?",                      Tinyfox("yote"),    "Coyotej"         ),
-	("waht?(ej|je)?",                                 Tinyfox("wah"),     "Pandatej"        ),
-	("(red|rood|rode|rooie) ?pand(a|er)t?(ej|je)?",   Tinyfox("wah"),     "Pandatej"        ),
+	("waht?(ej|je)?",                                 Tinyfox("wah"),     "Rood pandatej"   ),
+	("(red|rood|rode|rooie) ?pand(a|er)t?(ej|je)?",   Tinyfox("wah"),     "Rood pandatej"   ),
 	("chi(tej|tje|ej|je|j)?",                         Tinyfox("chi"),     "Chitej"          ),
-	("afri[kc]a(n|anse)?( wilde?)? ?hon[dt](ej|je)?", Tinyfox("chi"),     "Hondej"          ),
+	("afri[kc]a(n|anse)?( wilde?)? ?hon[dt](ej|je)?", Tinyfox("chi"),     "Wild hondej"     ),
 	("hond(je|ej)?",                                  Tinyfox("dog"),     "Hondej"          ), // this is a subset of the one above, so it must come after
 }.Select(tuple => (new Regex(@$"\b{tuple.Item1}s?\b", RegexOptions.IgnoreCase), tuple.Item2, tuple.Item3)).ToList();
 
