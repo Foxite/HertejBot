@@ -5,7 +5,7 @@ using DSharpPlus.Entities;
 using HertejBot;
 
 var discord = new DiscordClient(new DiscordConfiguration() {
-	Intents = DiscordIntents.GuildMessages,
+	Intents = DiscordIntents.GuildMessages | DiscordIntents.DirectMessages,
 	Token = Environment.GetEnvironmentVariable("BOT_TOKEN")
 });
 
