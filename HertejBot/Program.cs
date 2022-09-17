@@ -23,7 +23,7 @@ ImageSource Tinyfox(string animal) => new HttpImageSource(http, $"https://api.ti
 List<(Regex Regex, ImageSource Source, string Reply)> filters = new[] {
 	("hert(je|ej)?",                                  Tinyfox("bleat"),   "Hertej"          ),
 	("vos(je|ej)?",                                   Tinyfox("fox"),     "Vosej"           ),
-	("fox(ie|es|ies)?",                               Tinyfox("fox"),     "Vosej"           ),
+	("foxi?e?s?",                                     Tinyfox("fox"),     "Vosej"           ),
 	("mart(en)?(t?(ej|je))?",                         Tinyfox("marten"),  "Martej"          ),
 	("pum(a?)[tp]?(ej|je|j)?",                        Tinyfox("puma"),    "Pumaj"           ),
 	("snek(je|ej)?",                                  Tinyfox("snek"),    "Slangej"         ),
