@@ -36,7 +36,7 @@ List<(Regex Regex, ImageSource Source, string Reply)> filters = new[] {
 	("shiba(t?(ej|je|j))?",                           Tinyfox("shiba"),   "Shibaj"          ),
 	("wasbeer(t?(ej|je))?",                           Tinyfox("racc"),    "Wasbeertej"      ),
 	("fret(t?(ej|je))?",                              Tinyfox("dook"),    "Fretej"          ),
-	("ott(je|ej|erej|ertje)?",                        Tinyfox("ott"),     "Ottej"           ),
+	("ott(ert?)?(je|ej)?",                            Tinyfox("ott"),     "Ottej"           ),
 	("w(ol|ø)f(je|ej)?",                              Tinyfox("woof"),    "Wolfej"          ),
 	("snep(ej|je)?",                                  Tinyfox("snep"),    "Snepej"          ),
 	("sneeuw ?luipaard(ej|je)?",                      Tinyfox("snep"),    "Sneeuwluipaardej"),
