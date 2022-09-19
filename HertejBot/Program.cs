@@ -25,7 +25,7 @@ List<(Regex Regex, ImageSource Source, string Reply)> filters = new[] {
 	("vos(je|ej)?",                                   Tinyfox("fox"),     "Vosej"           ),
 	("foxi?e?s?",                                     Tinyfox("fox"),     "Vosej"           ),
 	("mart(en)?(t?(ej|je))?",                         Tinyfox("marten"),  "Martej"          ),
-	("pum(a?)[tp]?(ej|je|j)?",                        Tinyfox("puma"),    "Pumaj"           ),
+	("puma[tp]?(ej|je|j)?",                           Tinyfox("puma"),    "Pumaj"           ),
 	("snek(je|ej)?",                                  Tinyfox("snek"),    "Slangej"         ),
 	("slang(e?t?(je|ej))?",                           Tinyfox("snek"),    "Slangej"         ),
 	("(h?yeen|hyena)(t?(ej|je|j))?",                  Tinyfox("yeen"),    "Hyenaj"          ),
