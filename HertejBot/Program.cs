@@ -5,7 +5,7 @@ using DSharpPlus.Entities;
 using HertejBot;
 
 var discord = new DiscordClient(new DiscordConfiguration() {
-	Intents = DiscordIntents.GuildMessages | DiscordIntents.DirectMessages,
+	Intents = DiscordIntents.GuildMessages | DiscordIntents.DirectMessages | DiscordIntents.Guilds,
 	Token = Environment.GetEnvironmentVariable("BOT_TOKEN")
 });
 
@@ -64,23 +64,25 @@ discord.MessageCreated += (c, args) => {
 		}
 	}
 
-	if (!args.Author.IsBot) {
-		foreach ((Regex regex, ImageSource source, string reply) in filters) {
-			if (regex.IsMatch(args.Message.Content)) {
-				_ = Task.Run(async () => {
-					try {
-						using Image image = await source.GetImage();
-						await args.Message.RespondAsync(
-							new DiscordMessageBuilder()
-								.WithContent(reply + " :)")
-								.WithFile(Path.GetFileName(image.Filename.Replace("\"", "")), image.Stream)
-						);
-					} catch (Exception e) {
-						Console.WriteLine(e);
-					}
-				});
-				break;
-			}
+	if (args.Author.IsBot) {
+		return Task.CompletedTask;
+	}
+
+	foreach ((Regex regex, ImageSource source, string reply) in filters) {
+		if (regex.IsMatch(args.Message.Content)) {
+			_ = Task.Run(async () => {
+				try {
+					using Image image = await source.GetImage();
+					await args.Message.RespondAsync(
+						new DiscordMessageBuilder()
+							.WithContent(reply + " :)")
+							.WithFile(Path.GetFileName(image.Filename.Replace("\"", "")), image.Stream)
+					);
+				} catch (Exception e) {
+					Console.WriteLine(e);
+				}
+			});
+			break;
 		}
 	}
 	return Task.CompletedTask;
