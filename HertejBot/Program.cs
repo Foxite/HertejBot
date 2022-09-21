@@ -57,6 +57,13 @@ List<(Regex Regex, ImageSource Source, string Reply)> filters = new[] {
 }.Select(tuple => (new Regex(@$"\b{tuple.Item1}s?\b", RegexOptions.IgnoreCase), tuple.Item2, tuple.Item3)).ToList();
 
 discord.MessageCreated += (c, args) => {
+	if (args.Guild != null) {
+		Permissions perms = args.Channel.PermissionsFor(args.Guild.CurrentMember);
+		if (!perms.HasFlag(args.Channel.IsThread ? Permissions.SendMessagesInThreads : Permissions.SendMessages)) {
+			return Task.CompletedTask;
+		}
+	}
+
 	if (!args.Author.IsBot) {
 		foreach ((Regex regex, ImageSource source, string reply) in filters) {
 			if (regex.IsMatch(args.Message.Content)) {
