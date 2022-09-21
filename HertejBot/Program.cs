@@ -42,7 +42,7 @@ List<(Regex Regex, ImageSource Source, string Reply)> filters = new[] {
 	("sneeuw ?luipaard(ej|je)?",                      Tinyfox("snep"),    "Sneeuwluipaardej"),
 	("cap[iy](bara)?t?(ej|je)?",                      Tinyfox("capy"),    "Capybaratej"     ),
 	("beert?(ej|je)?",                                Tinyfox("bear"),    "Beertej"         ),
-	("ko?ni[ij]nt?(ej|je)?",                          Tinyfox("bun"),     "Knijntej"        ),
+	("k?o?ni[ij]nt?(ej|je)?",                          Tinyfox("bun"),     "Knijntej"        ),
 	("caracalt?(ej|je)?",                             Tinyfox("caracal"), "Caracalej"       ),
 	("maa?n(en)? ?wolf(ej|je)?",                      Tinyfox("mane"),    "Manenwolfej"     ),
 	("tijger?t?(ej|je)?",                             Tinyfox("tig"),     "Tijgetej"        ),
