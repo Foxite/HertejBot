@@ -8,6 +8,10 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <RestoreSources>https://nuget.repo.corsac.nl/v3/index.json;https://api.nuget.org/v3/index.json</RestoreSources>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="DSharpPlus" Version="4.2.0" />
       <PackageReference Include="Foxite.Common" Version="1.8.1" />
