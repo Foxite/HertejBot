@@ -113,7 +113,20 @@ public class HertejClient {
 	}
 	
 	public Task<GetImageDto> GetRandomImage(string category) {
-		return Request<GetImageDto>("Image/random");
+		return Request<GetImageDto>(GetQueryUrl("Image/random", new KeyValuePair<string, string>("category", category)));
+	}
+
+	public async Task<Image> DownloadImage(long id) {
+		// Do not dispose, we return the content stream and that gets disposed elsewhere.
+		HttpResponseMessage response = await m_Http.GetAsync(m_Options.Value.BaseUrl + $"/Image/{id}/download");
+		response.EnsureSuccessStatusCode();
+		return new Image(await response.Content.ReadAsStreamAsync(), "image" + response.Content.Headers.ContentType!.MediaType switch {
+			"image/jpeg" => ".jpg",
+			"image/png" => ".png",
+			"image/gif" => ".gif",
+			"image/webp" => ".webp",
+			_ => ""
+		});
 	}
 	
 	public Task<GetImageDto> GetUnratedImage(string userId, string? category = null) {

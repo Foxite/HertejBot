@@ -28,9 +28,10 @@ public class ApprovalModule : ApplicationCommandModule {
 			)
 			.AddComponents(
 				// TODO handle component interactions
-				new DiscordButtonComponent(ButtonStyle.Primary, $"image-{image.Id}-yes", "Yes", emoji: new DiscordComponentEmoji(DiscordEmoji.FromUnicode("👍"))),
-				new DiscordButtonComponent(ButtonStyle.Danger, $"image-{image.Id}-no", "No", emoji: new DiscordComponentEmoji(DiscordEmoji.FromUnicode("👎")))
-			);
+				new DiscordButtonComponent(ButtonStyle.Primary, $"{context.User.Id}-rate-{image.Id}-yes", "Yes", emoji: new DiscordComponentEmoji(DiscordEmoji.FromUnicode("👍"))),
+				new DiscordButtonComponent(ButtonStyle.Danger, $"{context.User.Id}-rate-{image.Id}-no", "No", emoji: new DiscordComponentEmoji(DiscordEmoji.FromUnicode("👎")))
+			)
+			.AsEphemeral();
 
 		await context.CreateResponseAsync(dirb);
 	}

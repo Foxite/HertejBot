@@ -14,7 +14,7 @@ IHostBuilder builder = Host.CreateDefaultBuilder(args);
 
 builder.ConfigureAppConfiguration((hbc, icb) => {
 	icb.AddJsonFile("appsettings.json", false, true);
-	icb.AddJsonFile($"appsettings.{hbc.HostingEnvironment.EnvironmentName}.json", false, true);
+	icb.AddJsonFile($"appsettings.{hbc.HostingEnvironment.EnvironmentName}.json", true, true);
 	icb.AddJsonFile("serverconfigs.json", false, true);
 });
 
@@ -48,6 +48,7 @@ builder.ConfigureServices((hbc, isc) => {
 		return discord;
 	});
 
+	isc.AddSingleton<HertejClient>();
 	isc.AddSingleton<ImageSourceFactory>();
 	isc.AddSingleton<ServerConfigManager>();
 });
