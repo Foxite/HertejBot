@@ -33,4 +33,5 @@ public class ImageSourceDescription {
 public enum ImageSourceType {
 	Http,
 	Tinyfox,
+	HertejDb
 }

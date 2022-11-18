@@ -23,6 +23,6 @@ public class HttpImageSource : ImageSource {
 	public async override Task<Image> GetImage() {
 		HttpResponseMessage image = await m_Http.GetAsync(m_Url);
 		Stream download = await image.Content.ReadAsStreamAsync();
-		return new Image(download, image.Content.Headers.ContentDisposition!.FileName!);
+		return new Image(download, image.Content.Headers.ContentDisposition?.FileName ?? "image");
 	}
 }

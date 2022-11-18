@@ -5,6 +5,7 @@
                 346682476149866497
             ],
             "ImageSources": [
+                { "Regex": "hvos",                                            "Reply": "Vosej van HertejDB", "Type": "HertejDb", "Data": "fox"   },
                 { "Regex": "hert(je|ej)?s?",                                  "Reply": "Hertej",           "Type": "Tinyfox", "Data": "bleat"   },
                 { "Regex": "vos(je|ej)?s?",                                   "Reply": "Vosej",            "Type": "Tinyfox", "Data": "fox"     },
                 { "Regex": "fox(i?e)?s?",                                     "Reply": "Vosej",            "Type": "Tinyfox", "Data": "fox"     },

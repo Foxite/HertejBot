@@ -20,6 +20,7 @@ builder.ConfigureAppConfiguration((hbc, icb) => {
 
 builder.ConfigureServices((hbc, isc) => {
 	isc.Configure<DiscordOptions>(hbc.Configuration.GetSection("Discord"));
+	isc.Configure<HertejClient.Options>(hbc.Configuration.GetSection("HertejDB"));
 	isc.Configure<List<ServerConfig>>(hbc.Configuration.GetSection("ServerConfigs"));
 
 	isc.AddSingleton(_ => new HttpClient() {
@@ -38,11 +39,11 @@ builder.ConfigureServices((hbc, isc) => {
 			LoggerFactory = isp.GetRequiredService<ILoggerFactory>()
 		});
 
-		//var slashCommands = discord.UseSlashCommands(new SlashCommandsConfiguration() {
-		//	Services = isp
-		//});
+		var slashCommands = discord.UseSlashCommands(new SlashCommandsConfiguration() {
+			Services = isp
+		});
 		
-		//slashCommands.RegisterCommands<ApprovalModule>();
+		slashCommands.RegisterCommands<ApprovalModule>();
 
 		return discord;
 	});
@@ -81,6 +82,12 @@ discord.MessageCreated += (c, args) => {
 			}
 		});
 	}
+	return Task.CompletedTask;
+};
+
+discord.ComponentInteractionCreated += (c, args) => {
+	app.Services.GetRequiredService<ILogger<Program>>().LogInformation(args.ToString());
+	
 	return Task.CompletedTask;
 };
 
