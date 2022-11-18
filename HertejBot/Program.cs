@@ -33,21 +33,39 @@ builder.ConfigureServices((hbc, isc) => {
 	});
 
 	isc.AddSingleton(isp => {
+		var discordOptions = isp.GetRequiredService<IOptions<DiscordOptions>>();
+		
 		var discord = new DiscordClient(new DiscordConfiguration() {
 			Intents = DiscordIntents.GuildMessages | DiscordIntents.Guilds,
-			Token = isp.GetRequiredService<IOptions<DiscordOptions>>().Value.Token,
-			LoggerFactory = isp.GetRequiredService<ILoggerFactory>()
+			Token = discordOptions.Value.Token,
+			LoggerFactory = isp.GetRequiredService<ILoggerFactory>(),
 		});
 
 		var slashCommands = discord.UseSlashCommands(new SlashCommandsConfiguration() {
 			Services = isp
 		});
 		
-		slashCommands.RegisterCommands<RateModule>(346682476149866497);
+		slashCommands.RegisterCommands<RateModule>(discordOptions.Value.CommandsGuild);
 
+		slashCommands.SlashCommandInvoked += (o, e) => {
+			isp.GetRequiredService<ILogger<SlashCommandsExtension>>().LogDebug("Slash command invoked: {CommandName}", e.Context.CommandName);
+			return Task.CompletedTask;
+		};
+
+		slashCommands.SlashCommandExecuted += (o, e) => {
+			isp.GetRequiredService<ILogger<SlashCommandsExtension>>().LogDebug("Slash command executed: {CommandName}", e.Context.CommandName);
+			return Task.CompletedTask;
+		};
+
+		slashCommands.SlashCommandErrored += (o, e) => {
+			isp.GetRequiredService<ILogger<SlashCommandsExtension>>().LogError(e.Exception, "Slash command errored: {CommandName}", e.Context.CommandName);
+			return Task.CompletedTask;
+		};
+		
 		return discord;
 	});
 
+	isc.AddSingleton<RateService>();
 	isc.AddSingleton<HertejClient>();
 	isc.AddSingleton<ImageSourceFactory>();
 	isc.AddSingleton<ServerConfigManager>();
@@ -90,9 +108,9 @@ discord.MessageCreated += (c, args) => {
 discord.ComponentInteractionCreated += (c, args) => {
 	//app.Services.GetRequiredService<ILogger<Program>>().LogInformation(args.ToString());
 
-	var rateService = app.Services.GetRequiredService<RateService>();
 	_ = Task.Run(async () => {
 		try {
+			var rateService = app.Services.GetRequiredService<RateService>();
 			await rateService.HandleRatingInteraction(args);
 		} catch (Exception e) {
 			app.Services.GetRequiredService<ILogger<Program>>().LogError(e, "Error handling component interaction off-thread");
@@ -100,12 +118,6 @@ discord.ComponentInteractionCreated += (c, args) => {
 	});
 
 	return Task.CompletedTask;
-};
-
-discord.Ready += async (c, a) => {
-	foreach (DiscordApplicationCommand command in await discord.GetGlobalApplicationCommandsAsync()) {
-		await discord.DeleteGlobalApplicationCommandAsync(command.Id);
-	}
 };
 
 await discord.ConnectAsync();

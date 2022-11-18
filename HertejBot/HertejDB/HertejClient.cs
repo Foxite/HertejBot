@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Reflection;
 using System.Text;
 using HertejDB.Common;
@@ -112,8 +113,8 @@ public class HertejClient {
 		return Request<GetImageDto>($"Image/{id}");
 	}
 	
-	public Task<GetImageDto> GetRandomImage(string category) {
-		return Request<GetImageDto>(GetQueryUrl("Image/random", new KeyValuePair<string, string>("category", category)));
+	public Task<GetImageDto?> GetRandomImage(string category) {
+		return Request<GetImageDto?>(GetQueryUrl("Image/random", new KeyValuePair<string, string>("category", category)));
 	}
 
 	public async Task<Image> DownloadImage(long id) {
@@ -129,15 +130,15 @@ public class HertejClient {
 		});
 	}
 	
-	public Task<GetImageDto> GetUnratedImage(string userId, string? category = null) {
-		return Request<GetImageDto>(GetQueryUrl("ImageRating/random", new KeyValuePair<string, string>("userId", userId), category == null ? null : new KeyValuePair<string, string>("category", category)), authorize: true);
+	public Task<GetImageDto?> GetUnratedImage(string userId, string? category = null) {
+		return Request<GetImageDto?>(GetQueryUrl("ImageRating/unrated", new KeyValuePair<string, string>("userId", userId), category == null ? null : new KeyValuePair<string, string>("category", category)), authorize: true);
 	}
 	
 	public Task SubmitRating(string imageId, string userId, bool isSuitable) {
-		return Request<string?>($"ImageRating/{imageId}", authorize: true, requestBody: new StringContent(JsonConvert.SerializeObject(new SubmitRatingDto() {
+		return Request<string?>($"ImageRating/{imageId}", method: HttpMethod.Put, authorize: true, requestBody: JsonContent.Create(new SubmitRatingDto() {
 			UserId = userId,
 			IsSuitable = isSuitable
-		})));
+		}));
 	}
 
 	public class Options {
