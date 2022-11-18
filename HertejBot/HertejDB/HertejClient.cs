@@ -63,7 +63,7 @@ public class HertejClient {
 		return m_Token;
 	}
 
-	private async Task<T> Request<T>(string endpoint, T? anonymousType = default, bool authorize = false, HttpMethod? method = null, HttpContent? requestBody = null) where T : class {
+	private async Task<T> Request<T>(string endpoint, T? anonymousType = default, bool authorize = false, HttpMethod? method = null, HttpContent? requestBody = null) {
 		var hrm = new HttpRequestMessage(method ?? HttpMethod.Get, m_Options.Value.BaseUrl + "/" + endpoint) {
 			Content = requestBody
 		};
@@ -133,8 +133,8 @@ public class HertejClient {
 		return Request<GetImageDto>(GetQueryUrl("ImageRating/random", new KeyValuePair<string, string>("userId", userId), category == null ? null : new KeyValuePair<string, string>("category", category)), authorize: true);
 	}
 	
-	public Task SubmitRating(long imageId, string userId, bool isSuitable) {
-		return Request<GetImageDto>($"ImageRating/{imageId}", authorize: true, requestBody: new StringContent(JsonConvert.SerializeObject(new SubmitRatingDto() {
+	public Task SubmitRating(string imageId, string userId, bool isSuitable) {
+		return Request<string?>($"ImageRating/{imageId}", authorize: true, requestBody: new StringContent(JsonConvert.SerializeObject(new SubmitRatingDto() {
 			UserId = userId,
 			IsSuitable = isSuitable
 		})));

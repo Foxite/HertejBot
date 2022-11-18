@@ -43,7 +43,7 @@ builder.ConfigureServices((hbc, isc) => {
 			Services = isp
 		});
 		
-		slashCommands.RegisterCommands<ApprovalModule>();
+		slashCommands.RegisterCommands<RateModule>(346682476149866497);
 
 		return discord;
 	});
@@ -56,6 +56,7 @@ builder.ConfigureServices((hbc, isc) => {
 IHost app = builder.Build();
 
 var discord = app.Services.GetRequiredService<DiscordClient>();
+
 discord.MessageCreated += (c, args) => {
 	if (args.Guild != null) {
 		Permissions perms = args.Channel.PermissionsFor(args.Guild.CurrentMember);
@@ -79,7 +80,7 @@ discord.MessageCreated += (c, args) => {
 						.WithFile(Path.GetFileName(image.Filename.Replace("\"", "")), image.Stream)
 				);
 			} catch (Exception e) {
-				Console.WriteLine(e);
+				app.Services.GetRequiredService<ILogger<Program>>().LogError(e, "Error handling message off-thread");
 			}
 		});
 	}
@@ -87,9 +88,24 @@ discord.MessageCreated += (c, args) => {
 };
 
 discord.ComponentInteractionCreated += (c, args) => {
-	app.Services.GetRequiredService<ILogger<Program>>().LogInformation(args.ToString());
-	
+	//app.Services.GetRequiredService<ILogger<Program>>().LogInformation(args.ToString());
+
+	var rateService = app.Services.GetRequiredService<RateService>();
+	_ = Task.Run(async () => {
+		try {
+			await rateService.HandleRatingInteraction(args);
+		} catch (Exception e) {
+			app.Services.GetRequiredService<ILogger<Program>>().LogError(e, "Error handling component interaction off-thread");
+		}
+	});
+
 	return Task.CompletedTask;
+};
+
+discord.Ready += async (c, a) => {
+	foreach (DiscordApplicationCommand command in await discord.GetGlobalApplicationCommandsAsync()) {
+		await discord.DeleteGlobalApplicationCommandAsync(command.Id);
+	}
 };
 
 await discord.ConnectAsync();
