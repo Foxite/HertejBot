@@ -1,24 +1,59 @@
 ﻿using System.Net.Http.Headers;
 using DSharpPlus;
 using DSharpPlus.Entities;
+using DSharpPlus.SlashCommands;
 using HertejBot;
+using HertejBot.HertejDB;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-var discord = new DiscordClient(new DiscordConfiguration() {
-	Intents = DiscordIntents.GuildMessages | DiscordIntents.Guilds,
-	Token = Environment.GetEnvironmentVariable("BOT_TOKEN")
+IHostBuilder builder = Host.CreateDefaultBuilder(args);
+
+builder.ConfigureAppConfiguration((hbc, icb) => {
+	icb.AddJsonFile("appsettings.json", false, true);
+	icb.AddJsonFile($"appsettings.{hbc.HostingEnvironment.EnvironmentName}.json", false, true);
+	icb.AddJsonFile("serverconfigs.json", false, true);
 });
 
-var http = new HttpClient() {
-	DefaultRequestHeaders = {
-		UserAgent = {
-			new ProductInfoHeaderValue("HertejBot", "0.3"),
-			new ProductInfoHeaderValue("(https://github.com/Foxite/HertejBot)")
+builder.ConfigureServices((hbc, isc) => {
+	isc.Configure<DiscordOptions>(hbc.Configuration.GetSection("Discord"));
+	isc.Configure<List<ServerConfig>>(hbc.Configuration.GetSection("ServerConfigs"));
+
+	isc.AddSingleton(_ => new HttpClient() {
+		DefaultRequestHeaders = {
+			UserAgent = {
+				new ProductInfoHeaderValue("HertejBot", "0.3"),
+				new ProductInfoHeaderValue("(https://github.com/Foxite/HertejBot)")
+			}
 		}
-	}
-};
+	});
 
-var serverConfigManager = ServerConfigManager.Create(Environment.GetEnvironmentVariable("CONFIG_PATH") ?? "serverconfigs.json", new ImageSourceFactory(http));
+	isc.AddSingleton(isp => {
+		var discord = new DiscordClient(new DiscordConfiguration() {
+			Intents = DiscordIntents.GuildMessages | DiscordIntents.Guilds,
+			Token = isp.GetRequiredService<IOptions<DiscordOptions>>().Value.Token,
+			LoggerFactory = isp.GetRequiredService<ILoggerFactory>()
+		});
 
+		//var slashCommands = discord.UseSlashCommands(new SlashCommandsConfiguration() {
+		//	Services = isp
+		//});
+		
+		//slashCommands.RegisterCommands<ApprovalModule>();
+
+		return discord;
+	});
+
+	isc.AddSingleton<ImageSourceFactory>();
+	isc.AddSingleton<ServerConfigManager>();
+});
+
+IHost app = builder.Build();
+
+var discord = app.Services.GetRequiredService<DiscordClient>();
 discord.MessageCreated += (c, args) => {
 	if (args.Guild != null) {
 		Permissions perms = args.Channel.PermissionsFor(args.Guild.CurrentMember);
@@ -31,7 +66,7 @@ discord.MessageCreated += (c, args) => {
 		return Task.CompletedTask;
 	}
 	
-	ServerConfigManager.RegisteredSource? source = serverConfigManager.GetImageSource(args.Message);
+	ServerConfigManager.RegisteredSource? source = app.Services.GetRequiredService<ServerConfigManager>().GetImageSource(args.Message);
 	if (source != null) {
 		_ = Task.Run(async () => {
 			try {
@@ -50,4 +85,5 @@ discord.MessageCreated += (c, args) => {
 };
 
 await discord.ConnectAsync();
-await Task.Delay(-1);
+
+await app.RunAsync();

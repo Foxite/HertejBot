@@ -10,8 +10,9 @@ public class ApprovalModule : ApplicationCommandModule {
 	private readonly HertejClient m_Hertej;
 	private readonly IOptionsMonitor<HertejClient.Options> m_HertejOptions;
 
-	public ApprovalModule(HertejClient hertej) {
+	public ApprovalModule(HertejClient hertej, IOptionsMonitor<HertejClient.Options> hertejOptions) {
 		m_Hertej = hertej;
+		m_HertejOptions = hertejOptions;
 	}
 
 	[SlashCommand("start", "Start rating")]

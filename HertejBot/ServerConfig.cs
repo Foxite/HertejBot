@@ -1,6 +1,7 @@
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace HertejBot; 
 
@@ -22,7 +23,8 @@ public class ImageSourceDescription {
 
 	public string Reply { get; set; }
 	public ImageSourceType Type { get; set; }
-	public JToken Data { get; set; }
+	
+	public IConfigurationSection Data { get; set; }
 	
 	[JsonIgnore]
 	public Regex ActualRegex { get; private set; }
