@@ -1,49 +1,52 @@
-[
-    {
-        "GuildIds": [
-            346682476149866497
-        ],
-        "ImageSources": [
-            { "Regex": "hert(je|ej)?s?",                                  "Reply": "Hertej",           "Type": "Tinyfox", "Data": "bleat"   },
-            { "Regex": "vos(je|ej)?s?",                                   "Reply": "Vosej",            "Type": "Tinyfox", "Data": "fox"     },
-            { "Regex": "fox(i?e)?s?",                                     "Reply": "Vosej",            "Type": "Tinyfox", "Data": "fox"     },
-            { "Regex": "mart(en)?(t?(ej|je))?s?",                         "Reply": "Martej",           "Type": "Tinyfox", "Data": "marten"  },
-            { "Regex": "pum(a?)[tp]?(ej|je|j)?s?",                        "Reply": "Pumaj",            "Type": "Tinyfox", "Data": "puma"    },
-            { "Regex": "snek(je|ej)?s?",                                  "Reply": "Slangej",          "Type": "Tinyfox", "Data": "snek"    },
-            { "Regex": "slang(e?t?(je|ej))?s?",                           "Reply": "Slangej",          "Type": "Tinyfox", "Data": "snek"    },
-            { "Regex": "(h?yeen|hyena)(t?(ej|je|j))?s?",                  "Reply": "Hyenaj",           "Type": "Tinyfox", "Data": "yeen"    },
-            { "Regex": "man(u|oe)l((e?t)?(ej|je))?s?",                    "Reply": "Manulej",          "Type": "Tinyfox", "Data": "manul"   },
-            { "Regex": "o?poss(um[tp]?)?(je|ej)?s?",                      "Reply": "Opossumej",        "Type": "Tinyfox", "Data": "poss"    },
-            { "Regex": "leeuw(t?(ej|je))?s?",                             "Reply": "Leeuwej",          "Type": "Tinyfox", "Data": "leo"     },
-            { "Regex": "serval(t?(ej|je))?s?",                            "Reply": "Servalej",         "Type": "Tinyfox", "Data": "serval"  },
-            { "Regex": "shiba(t?(ej|je|j))?s?",                           "Reply": "Shibaj",           "Type": "Tinyfox", "Data": "shiba"   },
-            { "Regex": "wasbeer(t?(ej|je))?s?",                           "Reply": "Wasbeertej",       "Type": "Tinyfox", "Data": "racc"    },
-            { "Regex": "fret(t?(ej|je))?s?",                              "Reply": "Fretej",           "Type": "Tinyfox", "Data": "dook"    },
-            { "Regex": "ott(je|ej|erej|ertje)?s?",                        "Reply": "Ottej",            "Type": "Tinyfox", "Data": "ott"     },
-        ]
-    },
-    {
-        "GuildIds": [
-            872837910725017601
-        ],
-        "ImageSources": [
-            { "Regex": "w(ol|ø)f(je|ej)?s?",                              "Reply": "Wolfej",           "Type": "Tinyfox", "Data": "woof"    },
-            { "Regex": "snep(ej|je)?s?",                                  "Reply": "Snepej",           "Type": "Tinyfox", "Data": "snep"    },
-            { "Regex": "sneeuw ?luipaard(ej|je)?s?",                      "Reply": "Sneeuwluipaardej", "Type": "Tinyfox", "Data": "snep"    },
-            { "Regex": "cap[iy](bara)?t?(ej|je)?s?",                      "Reply": "Capybaratej",      "Type": "Tinyfox", "Data": "capy"    },
-            { "Regex": "beert?(ej|je)?s?",                                "Reply": "Beertej",          "Type": "Tinyfox", "Data": "bear"    },
-            { "Regex": "ko?ni[ij]nt?(ej|je)?s?",                          "Reply": "Knijntej",         "Type": "Tinyfox", "Data": "bun"     },
-            { "Regex": "caracalt?(ej|je)?s?",                             "Reply": "Caracalej",        "Type": "Tinyfox", "Data": "caracal" },
-            { "Regex": "maa?n(en)? ?wolf(ej|je)?s?",                      "Reply": "Manenwolfej",      "Type": "Tinyfox", "Data": "mane"    },
-            { "Regex": "tijger?t?(ej|je)?s?",                             "Reply": "Tijgetej",         "Type": "Tinyfox", "Data": "tig"     },
-            { "Regex": "stink ?diert?(ej|je)?s?",                         "Reply": "Stinkdiertej",     "Type": "Tinyfox", "Data": "skunk"   },
-            { "Regex": "jaguart?(ej|je)?s?",                              "Reply": "Jaguartej",        "Type": "Tinyfox", "Data": "jaguar"  },
-            { "Regex": "(co)?yote(tje|tej|j|je)?s?",                      "Reply": "Coyotej",          "Type": "Tinyfox", "Data": "yote"    },
-            { "Regex": "waht?(ej|je)?s?",                                 "Reply": "Rood pandatej",    "Type": "Tinyfox", "Data": "wah"     },
-            { "Regex": "(red|rood|rode|rooie) ?pand(a|er)t?(ej|je)?s?",   "Reply": "Rood pandatej",    "Type": "Tinyfox", "Data": "wah"     },
-            { "Regex": "chi(tej|tje|ej|je|j)?s?",                         "Reply": "Chitej",           "Type": "Tinyfox", "Data": "chi"     },
-            { "Regex": "afri[kc]a(n|anse)?( wilde?)? ?hon[dt](ej|je)?s?", "Reply": "Wild hondej",      "Type": "Tinyfox", "Data": "chi"     },
-            { "Regex": "hond(je|ej)?s?",                                  "Reply": "Hondej",           "Type": "Tinyfox", "Data": "dog"     }, /* this is a subset of the one above, so it must come after */
-        ]
-    }
-]
+{
+    "ServerConfigs": [
+        {
+            "GuildIds": [
+                346682476149866497
+            ],
+            "ImageSources": [
+                { "Regex": "hvos",                                            "Reply": "Vosej van HertejDB", "Type": "HertejDb", "Data": "fox"   },
+                { "Regex": "hert(je|ej)?s?",                                  "Reply": "Hertej",           "Type": "Tinyfox", "Data": "bleat"   },
+                { "Regex": "vos(je|ej)?s?",                                   "Reply": "Vosej",            "Type": "Tinyfox", "Data": "fox"     },
+                { "Regex": "fox(i?e)?s?",                                     "Reply": "Vosej",            "Type": "Tinyfox", "Data": "fox"     },
+                { "Regex": "mart(en)?(t?(ej|je))?s?",                         "Reply": "Martej",           "Type": "Tinyfox", "Data": "marten"  },
+                { "Regex": "pum(a?)[tp]?(ej|je|j)?s?",                        "Reply": "Pumaj",            "Type": "Tinyfox", "Data": "puma"    },
+                { "Regex": "snek(je|ej)?s?",                                  "Reply": "Slangej",          "Type": "Tinyfox", "Data": "snek"    },
+                { "Regex": "slang(e?t?(je|ej))?s?",                           "Reply": "Slangej",          "Type": "Tinyfox", "Data": "snek"    },
+                { "Regex": "(h?yeen|hyena)(t?(ej|je|j))?s?",                  "Reply": "Hyenaj",           "Type": "Tinyfox", "Data": "yeen"    },
+                { "Regex": "man(u|oe)l((e?t)?(ej|je))?s?",                    "Reply": "Manulej",          "Type": "Tinyfox", "Data": "manul"   },
+                { "Regex": "o?poss(um[tp]?)?(je|ej)?s?",                      "Reply": "Opossumej",        "Type": "Tinyfox", "Data": "poss"    },
+                { "Regex": "leeuw(t?(ej|je))?s?",                             "Reply": "Leeuwej",          "Type": "Tinyfox", "Data": "leo"     },
+                { "Regex": "serval(t?(ej|je))?s?",                            "Reply": "Servalej",         "Type": "Tinyfox", "Data": "serval"  },
+                { "Regex": "shiba(t?(ej|je|j))?s?",                           "Reply": "Shibaj",           "Type": "Tinyfox", "Data": "shiba"   },
+                { "Regex": "wasbeer(t?(ej|je))?s?",                           "Reply": "Wasbeertej",       "Type": "Tinyfox", "Data": "racc"    },
+                { "Regex": "fret(t?(ej|je))?s?",                              "Reply": "Fretej",           "Type": "Tinyfox", "Data": "dook"    },
+                { "Regex": "ott(je|ej|erej|ertje)?s?",                        "Reply": "Ottej",            "Type": "Tinyfox", "Data": "ott"     },
+            ]
+        },
+        {
+            "GuildIds": [
+                872837910725017601
+            ],
+            "ImageSources": [
+                { "Regex": "w(ol|ø)f(je|ej)?s?",                              "Reply": "Wolfej",           "Type": "Tinyfox", "Data": "woof"    },
+                { "Regex": "snep(ej|je)?s?",                                  "Reply": "Snepej",           "Type": "Tinyfox", "Data": "snep"    },
+                { "Regex": "sneeuw ?luipaard(ej|je)?s?",                      "Reply": "Sneeuwluipaardej", "Type": "Tinyfox", "Data": "snep"    },
+                { "Regex": "cap[iy](bara)?t?(ej|je)?s?",                      "Reply": "Capybaratej",      "Type": "Tinyfox", "Data": "capy"    },
+                { "Regex": "beert?(ej|je)?s?",                                "Reply": "Beertej",          "Type": "Tinyfox", "Data": "bear"    },
+                { "Regex": "ko?ni[ij]nt?(ej|je)?s?",                          "Reply": "Knijntej",         "Type": "Tinyfox", "Data": "bun"     },
+                { "Regex": "caracalt?(ej|je)?s?",                             "Reply": "Caracalej",        "Type": "Tinyfox", "Data": "caracal" },
+                { "Regex": "maa?n(en)? ?wolf(ej|je)?s?",                      "Reply": "Manenwolfej",      "Type": "Tinyfox", "Data": "mane"    },
+                { "Regex": "tijger?t?(ej|je)?s?",                             "Reply": "Tijgetej",         "Type": "Tinyfox", "Data": "tig"     },
+                { "Regex": "stink ?diert?(ej|je)?s?",                         "Reply": "Stinkdiertej",     "Type": "Tinyfox", "Data": "skunk"   },
+                { "Regex": "jaguart?(ej|je)?s?",                              "Reply": "Jaguartej",        "Type": "Tinyfox", "Data": "jaguar"  },
+                { "Regex": "(co)?yote(tje|tej|j|je)?s?",                      "Reply": "Coyotej",          "Type": "Tinyfox", "Data": "yote"    },
+                { "Regex": "waht?(ej|je)?s?",                                 "Reply": "Rood pandatej",    "Type": "Tinyfox", "Data": "wah"     },
+                { "Regex": "(red|rood|rode|rooie) ?pand(a|er)t?(ej|je)?s?",   "Reply": "Rood pandatej",    "Type": "Tinyfox", "Data": "wah"     },
+                { "Regex": "chi(tej|tje|ej|je|j)?s?",                         "Reply": "Chitej",           "Type": "Tinyfox", "Data": "chi"     },
+                { "Regex": "afri[kc]a(n|anse)?( wilde?)? ?hon[dt](ej|je)?s?", "Reply": "Wild hondej",      "Type": "Tinyfox", "Data": "chi"     },
+                { "Regex": "hond(je|ej)?s?",                                  "Reply": "Hondej",           "Type": "Tinyfox", "Data": "dog"     }, /* this is a subset of the one above, so it must come after */
+            ]
+        }
+    ]
+}
