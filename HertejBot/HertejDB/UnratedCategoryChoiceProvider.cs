@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace HertejBot.HertejDB;
 
-public class CategoryChoiceProvider : ChoiceProvider {
+public class UnratedCategoryChoiceProvider : ChoiceProvider {
 	private HertejClient? m_Hertej;
 	private IOptionsMonitor<Options>? m_Options;
 
@@ -18,7 +18,7 @@ public class CategoryChoiceProvider : ChoiceProvider {
 		
 		if (m_CachedCategories == null || m_LastRefreshed.AddMinutes(m_Options.CurrentValue.MaxCacheAgeMinutes) < DateTimeOffset.UtcNow) {
 			m_LastRefreshed = DateTimeOffset.UtcNow;
-			m_CachedCategories = await m_Hertej.GetCategories();
+			m_CachedCategories = await m_Hertej.GetUnratedCategories();
 		}
 
 		return m_CachedCategories.Select(category => new DiscordApplicationCommandOptionChoice(category, category));

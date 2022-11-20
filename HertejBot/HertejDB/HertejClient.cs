@@ -109,6 +109,10 @@ public class HertejClient {
 		return Request<string[]>("Image/categories");
 	}
 	
+	public Task<string[]> GetUnratedCategories() {
+		return Request<string[]>("ImageRating/categories");
+	}
+	
 	public Task<GetImageDto> GetImage(long id) {
 		return Request<GetImageDto>($"Image/{id}");
 	}

@@ -12,7 +12,7 @@ public class RateModule : ApplicationCommandModule {
 	}
 
 	[SlashCommand("rate", "Start rating")]
-	public async Task StartRating(InteractionContext context, [Option("category", "The category of images to rate"), ChoiceProvider(typeof(CategoryChoiceProvider))] string? category = null) {
+	public async Task StartRating(InteractionContext context, [Option("category", "The category of images to rate"), ChoiceProvider(typeof(UnratedCategoryChoiceProvider))] string? category = null) {
 		await context.DeferAsync(true);
 		DiscordFollowupMessageBuilder dirb = await m_Service.GetUnratedImage(context.User.Id, category);
 		await context.FollowUpAsync(dirb);
