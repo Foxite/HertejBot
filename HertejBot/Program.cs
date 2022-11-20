@@ -16,6 +16,7 @@ builder.ConfigureAppConfiguration((hbc, icb) => {
 	icb.AddJsonFile("appsettings.json", false, true);
 	icb.AddJsonFile($"appsettings.{hbc.HostingEnvironment.EnvironmentName}.json", true, true);
 	icb.AddJsonFile("serverconfigs.json", false, true);
+	icb.AddEnvironmentVariables();
 });
 
 builder.ConfigureServices((hbc, isc) => {
