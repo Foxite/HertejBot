@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 namespace HertejBot.HertejDB; 
 
 public class RateService {
-	private static readonly Regex InteractionIdParser_Submit = new Regex(@"^rate-(?<imageid>\d+)-(?<rating>yes|no)-(?<category>.+)?$");
+	private static readonly Regex InteractionIdParser_Submit = new Regex(@"^rate-(?<userid>\d+)-(?<imageid>\d+)-(?<rating>yes|no)-(?<category>.+)?$");
 	private static readonly Regex InteractionIdParser_Back = new Regex(@"^back-(?<imageid>\d+)-(?<category>.+)?$");
 	
 	private readonly HertejClient m_Hertej;
@@ -32,7 +32,7 @@ public class RateService {
 		};
 
 		if (previousId != null) {
-			ret = ret.Append(new DiscordButtonComponent(ButtonStyle.Danger, $"back-{previousId}-{category}", "No", emoji: new DiscordComponentEmoji(DiscordEmoji.FromUnicode("👎"))));
+			ret = ret.Append(new DiscordButtonComponent(ButtonStyle.Secondary, $"back-{previousId}-{category}", "Go back", emoji: new DiscordComponentEmoji(DiscordEmoji.FromUnicode("🤔"))));
 		}
 
 		return ret;
