@@ -113,7 +113,7 @@ public class HertejClient {
 		return Request<IDictionary<string, int>>("ImageRating/categories", authorize: true);
 	}
 	
-	public Task<GetImageDto> GetImage(long id) {
+	public Task<GetImageDto> GetImage(string id) {
 		return Request<GetImageDto>($"Image/{id}");
 	}
 	
@@ -121,7 +121,7 @@ public class HertejClient {
 		return Request<GetImageDto?>(GetQueryUrl("Image/random", new KeyValuePair<string, string>("category", category)));
 	}
 
-	public async Task<Image> DownloadImage(long id) {
+	public async Task<Image> DownloadImage(string id) {
 		// Do not dispose, we return the content stream and that gets disposed elsewhere.
 		HttpResponseMessage response = await m_Http.GetAsync(m_Options.Value.BaseUrl + $"/Image/{id}/download");
 		response.EnsureSuccessStatusCode();
