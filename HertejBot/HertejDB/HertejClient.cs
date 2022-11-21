@@ -105,12 +105,12 @@ public class HertejClient {
 		return baseUrl;
 	}
 	
-	public Task<string[]> GetCategories() {
-		return Request<string[]>("Image/categories");
+	public Task<IDictionary<string, int>> GetCategories() {
+		return Request<IDictionary<string, int>>("Image/categories");
 	}
 	
-	public Task<string[]> GetUnratedCategories() {
-		return Request<string[]>("ImageRating/categories", authorize: true);
+	public Task<IDictionary<string, int>> GetUnratedCategories() {
+		return Request<IDictionary<string, int>>("ImageRating/categories", authorize: true);
 	}
 	
 	public Task<GetImageDto> GetImage(long id) {
