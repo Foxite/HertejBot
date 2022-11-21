@@ -18,7 +18,7 @@ public class UnratedCategoryChoiceProvider : ChoiceProvider {
 		
 		if (m_CachedCategories == null || m_LastRefreshed.AddMinutes(m_Options.CurrentValue.MaxCacheAgeMinutes) < DateTimeOffset.UtcNow) {
 			m_LastRefreshed = DateTimeOffset.UtcNow;
-			m_CachedCategories = await m_Hertej.GetUnratedCategories();
+			m_CachedCategories = (await m_Hertej.GetUnratedCategories()).Select(kvp => kvp.Key).ToArray();
 		}
 
 		return m_CachedCategories.Select(category => new DiscordApplicationCommandOptionChoice(category, category));
