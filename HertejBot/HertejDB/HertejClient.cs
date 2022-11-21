@@ -121,7 +121,7 @@ public class HertejClient {
 		return Request<GetImageDto?>(GetQueryUrl("Image/random", new KeyValuePair<string, string>("category", category)));
 	}
 
-	public async Task<Image> DownloadImage(string id) {
+	public async Task<Image> DownloadImage(string id, ImageAttribution? imageAttribution) {
 		// Do not dispose, we return the content stream and that gets disposed elsewhere.
 		HttpResponseMessage response = await m_Http.GetAsync(m_Options.Value.BaseUrl + $"/Image/{id}/download");
 		response.EnsureSuccessStatusCode();
@@ -131,7 +131,7 @@ public class HertejClient {
 			"image/gif" => ".gif",
 			"image/webp" => ".webp",
 			_ => ""
-		});
+		}, imageAttribution);
 	}
 	
 	public Task<GetImageDto?> GetUnratedImage(string userId, string? category = null) {

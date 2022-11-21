@@ -19,6 +19,6 @@ public class HttpImageSource : ImageSource {
 			"image/gif" => ".gif",
 			"image/webp" => ".webp",
 			_ => ""
-		});
+		}, null);
 	}
 }

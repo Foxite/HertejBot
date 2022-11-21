@@ -14,6 +14,12 @@ public class HertejImageSource : ImageSource {
 	
 	public async override Task<Image> GetImage() {
 		GetImageDto hertejImage = (await m_Hertej.GetRandomImage(m_Category))!;
-		return await m_Hertej.DownloadImage(hertejImage.Id.ToString());
+
+		ImageAttribution? imageAttribution = null;
+		if (hertejImage.Attribution != null) {
+			imageAttribution = new ImageAttribution(hertejImage.Attribution.Author, hertejImage.Attribution.RemoteUrl, hertejImage.Attribution.Creation.Date);
+		}
+
+		return await m_Hertej.DownloadImage(hertejImage.Id.ToString(), imageAttribution);
 	}
 }
