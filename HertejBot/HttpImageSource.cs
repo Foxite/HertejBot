@@ -11,9 +11,10 @@ public class HttpImageSource : ImageSource {
 	
 	public async override Task<Image> GetImage() {
 		// Do not dispose, we return the content stream and that gets disposed elsewhere.
-		HttpResponseMessage image = await m_Http.GetAsync(m_Url);
-		Stream download = await image.Content.ReadAsStreamAsync();
-		return new Image(download, image.Content.Headers.ContentDisposition?.FileName ?? "image" + image.Content.Headers.ContentType?.MediaType switch {
+		HttpResponseMessage response = await m_Http.GetAsync(m_Url);
+		response.EnsureSuccessStatusCode();
+		Stream download = await response.Content.ReadAsStreamAsync();
+		return new Image(download, response.Content.Headers.ContentDisposition?.FileName ?? "image" + response.Content.Headers.ContentType?.MediaType switch {
 			"image/jpeg" => ".jpg",
 			"image/png" => ".png",
 			"image/gif" => ".gif",
