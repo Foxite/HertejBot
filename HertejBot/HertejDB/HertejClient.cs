@@ -55,7 +55,7 @@ public class HertejClient {
 		TokenResponse tokenResponse = await m_Http.RequestClientCredentialsTokenAsync(clientCredentialsTokenRequest);
 
 		if (tokenResponse.IsError) {
-			throw new InvalidOperationException("Token response error " + tokenResponse.Error);
+			throw new InvalidOperationException($"Token response error {tokenResponse.Error}: {tokenResponse.ErrorDescription}\n{tokenResponse.Raw}");
 		}
 
 		m_Token = tokenResponse;
