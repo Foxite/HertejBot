@@ -17,7 +17,7 @@
       <PackageReference Include="DSharpPlus.SlashCommands" Version="4.2.0" />
       <PackageReference Include="Foxite.Common" Version="1.8.1" />
       <PackageReference Include="HertejDB.Common" Version="0.1.0" />
-      <PackageReference Include="IdentityModel" Version="6.0.0" />
+      <PackageReference Include="IdentityModel" Version="6.1.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
