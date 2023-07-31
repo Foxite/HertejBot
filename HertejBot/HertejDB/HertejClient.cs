@@ -69,7 +69,7 @@ public class HertejClient {
 			Content = requestBody
 		};
 		
-		if (authorize) {
+		if (authorize && !string.IsNullOrWhiteSpace(m_Options.Value.DiscoveryDocument)) {
 			TokenResponse token = await GetTokenAsync();
 			hrm.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
 		}
@@ -147,7 +147,6 @@ public class HertejClient {
 
 	public class Options {
 		public string BaseUrl { get; set; }
-		public string Authority { get; set; }
 		public string DiscoveryDocument { get; set; }
 		public string ClientId { get; set; }
 		public string ClientSecret { get; set; }
