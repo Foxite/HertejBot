@@ -28,7 +28,7 @@ builder.ConfigureServices((hbc, isc) => {
 	isc.AddSingleton(_ => new HttpClient() {
 		DefaultRequestHeaders = {
 			UserAgent = {
-				new ProductInfoHeaderValue("HertejBot", "0.3"),
+				new ProductInfoHeaderValue("HertejBot", "0.3.1"),
 				new ProductInfoHeaderValue("(https://github.com/Foxite/HertejBot)")
 			}
 		}
