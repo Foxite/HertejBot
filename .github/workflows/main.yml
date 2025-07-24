@@ -9,7 +9,7 @@ env:
   REGISTRY: ghcr.io/Foxite
   IMAGE_NAME: hertej-bot
   BUILD_CONTEXT: HertejBot
-  DOCKERFILE: Dockerfile
+  DOCKERFILE: HertejBot/Dockerfile
   GLUE_KEY_ALG: ES512
   GLUE_KEY_ID: HertejBot
 
